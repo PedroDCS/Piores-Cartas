@@ -4,6 +4,7 @@
 
 Uma aplicação feita em angular e firebase, inspirada no jogo "Cartas Contra a Humanidade".
 <br>
+Essa aplicação não possui servidor, todo o processamento do jogo é feito via cliente e sincronizado por meio de um banco de dados em tempo real <br>
 Para o front-end foi utilizado o framework Angular na versão 12.2.4, também foi usada a biblioteca Bootstrap<br>
 Para o Back-end foi utilizado o Firebase para armazenamento de dados, utilizando o Firestore Database<br>
 <h3>Explicação rapida do jogo</h3>
