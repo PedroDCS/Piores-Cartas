@@ -1,0 +1,21 @@
+textarea {
+    outline: none;
+    resize: none;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.blackcard {
+    background-color: black;
+    border: white;
+    border-style: solid;
+    border-width: 0.5px;
+}
+
+.whitecard {
+    background-color: rgb(230, 227, 227);
+    color: black;
+    border: black;
+    border-style: solid;
+    border-width: 0.5px;
+}

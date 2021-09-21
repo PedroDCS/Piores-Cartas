@@ -1,0 +1,84 @@
+<div class="container-fluid" *ngIf="jogador != null">
+    <div>
+        <p>Players Online:</p>
+        <p>{{this.jogo.jogadores}}</p>
+
+
+    </div>
+    <hr>
+    <div class="row justify-content-md-start">
+        <div class="col-sm-6 col-md-3">
+
+            <textarea readonly class="form-control text-white textarea blackcard" name=""
+                id="">{{cartapreta.carta}}</textarea>
+            <br>
+            <div class="d-grid gap-2" *ngIf="!chefao;else naochefaoconfirma">
+                <button [disabled]='!podejogar' (click)='confirmarcarta()' class="btn btn-roxo">Confirmar
+                    Carta</button>
+            </div>
+            <ng-template #naochefaoconfirma>
+                <div class="d-grid gap-2" *ngIf="jogo.rodada != 2;else finalizar">
+                    <button [disabled]='jogo.cartasbrancasrodada.length ==0' (click)="encerrarjogadas()"
+                        class="btn btn-roxo">Encerrar Jogadas</button>
+                </div>
+                <ng-template #finalizar>
+                    <div class="d-grid gap-2">
+                        <button [disabled]='index==-1' (click)="finalizarrodada()" class="btn btn-rosa">Escolher
+                            Melhor
+                            Carta</button>
+                    </div>
+                </ng-template>
+            </ng-template>
+            <hr>
+        </div>
+
+        <div class="col-sm-5 col-md-4 col-lg-3" *ngFor="let card of jogo.cartasbrancasrodada; index as ii">
+            <div *ngIf="jogo.rodada == 2;else mostrarcartas">
+
+                <input [disabled]='!chefao' (click)="escolhermelhorcarta(ii)" type="radio" class="btn-check"
+                    name="option1" id="option1{{ii}}" autocomplete="off">
+                <label class="btn btn-outline-primary textarea whitecard text-start" for="option1{{ii}}">
+                    <div *ngFor="let item of card.cartabranca; index as i">
+                        {{item}}
+                        <hr>
+                    </div>
+                </label>
+
+                <br>
+            </div>
+            <br>
+            <ng-template #mostrarcartas>
+                <input disabled type="radio" class="btn-check" name="option2" id="option2{{ii}}" autocomplete="off">
+                <label class="btn btn-outline-primary textarea whitecard text-start" for="option2{{ii}}">
+                    <div *ngFor="let item of card.cartabranca; index as i">
+                        <p>------------</p>
+                        <hr>
+                    </div>
+                </label>
+            </ng-template>
+            <hr>
+        </div>
+
+    </div>
+    <hr>
+
+    <div class="row justify-content-md-center">
+
+        <div *ngFor="let carta of minhamao; index as i" class="col-sm-5 col-md-4 col-lg-3">
+            <input [disabled]="!podejogar" (click)="selecionarcartasbranca(i)" type="radio" class="btn-check"
+                name="option3" id="option3{{i}}" autocomplete="off">
+            <label class="btn btn-outline-primary textarea whitecard text-start" for="option3{{i}}">{{carta}}</label>
+            <br>
+            <br>
+        </div>
+        <br>
+
+
+
+    </div>
+
+    <!--
+            
+        -->
+
+</div>

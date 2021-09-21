@@ -1,0 +1,56 @@
+<div *ngIf="jogo != null" class="container-fluid">
+    <div class="row justify-content-md-center">
+        <div class="col-sm-10">
+            <h2>Jogadores: </h2>
+            <p>{{jogo.jogadores}}</p>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center ">
+        <form class="col-sm-10" #formData='ngForm' (ngSubmit)="iniciar(formData)" action="">
+            <p>Somente o host da sala pode fazer mudanças nas configurações</p>
+            <div class="row justify-content-md-center">
+                <div class="col-sm">
+                    <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Limite de pontos: </label>
+                        <div class="col-sm-8">
+                            <select name="pontos" class="form-select bg-dark text-white">
+                                <option value="0" selected>Indefinido</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <hr>
+            <h2>Pacotes do Jogo:</h2>
+            <div *ngIf="pacotes != null" class="row">
+                <div *ngFor="let pacote of pacotes; index as i">
+                    <div class="form-check form-control-lg">
+                        <input ngModel [ngModel]="false" name="{{pacote.payload.doc.data().packid}}"
+                            class="form-check-input" type="checkbox" id="flexCheckDefault{{i}}">
+                        <label class="form-check-label" for="flexCheckDefault{{i}}">
+                            <i>{{pacote.payload.doc.data().packname}}</i> - {{pacote.payload.doc.data().packdesc}}
+                        </label>
+                    </div>
+                    <hr>
+                </div>
+
+            </div>
+            <hr>
+            <div class="d-grid gap-2">
+                <button class="btn btn-success">Iniciar Jogo</button>
+            </div>
+
+        </form>
+    </div>
+</div>

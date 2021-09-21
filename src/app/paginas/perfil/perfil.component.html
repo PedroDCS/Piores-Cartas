@@ -1,0 +1,15 @@
+<div *ngIf="auth != null">
+    <div class="row justify-content-md-center" *ngIf="usuario != null">
+        <h2 class="text-center">Bem Vindo {{usuario.email}}</h2>
+        <div class="col-sm-6">
+            <div class="d-grid gap-2">
+                <label for="exampleInputPassword1" class="form-label">Nome de usuario</label>
+
+                <input name="nomedeusuario" type="text" class="form-control" id="nomedeusuario"
+                    value="{{usuario.nomeusuario}}">
+                <button (click)="salvardados()" class="btn btn-success">Salvar Dados</button>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,90 @@
+<div class="container-fluid">
+    <div class="row justify-content-md-center">
+        <div class="col-sm-8">
+            <h3 class="text-lg-center">Crie Um pack de cartas para ser utilizado</h3>
+
+            <form>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control bg-dark text-white" name="packname" id="packname"
+                        placeholder="Nome do Pack">
+                    <label class="" for="packname">Nome do Pack</label>
+                </div>
+
+                <div class="form-floating">
+                    <textarea maxlength="320" name="packdesc" class="form-control bg-dark text-white"
+                        style="height: 140px" placeholder="Leave a comment here" id="packdesc"></textarea>
+                    <label for="packdesc">Descrição do Pack (Opcional)</label>
+                </div>
+
+                <hr>
+
+                <div class="row g-2">
+                    <div class="col-sm d-grid gap-2">
+
+                        <div class="form-floating">
+                            <textarea class="form-control bg-dark text-white" placeholder="Carta Preta" id="cartapreta"
+                                maxlength="220" name="cartapreta" style="height: 240px"></textarea>
+                            <label for="cartapreta">Carta Preta</label>
+                        </div>
+
+
+                        <div class="input-group mb-3 ">
+                            <label class="input-group-text bg-dark text-white" for="numcardbranca">Numero de cartas
+                                brancas:</label>
+                            <select class="form-select bg-dark text-white" id="numcardbranca">
+                                <option selected value="1">Uma</option>
+                                <option value="2">Duas</option>
+                                <option value="3">Três</option>
+                            </select>
+                        </div>
+
+                        <button (click)="adicionarcarta(true)" class="btn btn-outline-primary btn-lg ">Adicionar Carta
+                            Preta</button>
+
+                    </div>
+                    <div class="col-sm d-grid gap-2">
+                        <div class="form-floating">
+                            <textarea class="form-control bg-dark text-white" placeholder="Carta Branca"
+                                id="cartabranca" maxlength="220" name="cartabranca" style="height: 300px"></textarea>
+                            <label for="cartabranca">Carta Branca</label>
+                        </div>
+
+
+                        <button (click)="adicionarcarta(false)" class="btn btn-outline-rosa btn-lg ">Adicionar Carta
+                            Branca</button>
+
+                    </div>
+                </div>
+                <br>
+
+                <hr>
+                <div class="col-md d-grid gap-2">
+                    <button (click)="salvarpack()" class="btn btn-outline-roxo btn-lg ">Salvar Pack</button>
+
+                </div>
+                <hr><br>
+
+
+            </form>
+        </div>
+
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div *ngFor="let cards of cartaspretas">
+                <div class="col-sm">
+                    <p class="blackcard">{{cards.carta}}</p>
+                    <br>
+                </div>
+            </div>
+            <div *ngFor="let cards of cartasbrancas">
+                <div class="col-sm">
+                    <p class="whitecard">{{cards}}</p>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

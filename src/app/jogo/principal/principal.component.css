@@ -1,0 +1,35 @@
+.blackcard {
+    background-color: black;
+    border: white;
+    border-style: solid;
+    border-width: 0.5px;
+    min-height: 300px;
+    /*
+    width: 200px;*/
+}
+
+.botao {
+    width: 200px;
+    min-width: 200px;
+}
+
+.whitecard {
+    background-color: rgb(230, 227, 227);
+    color: black;
+    border: black;
+    border-style: solid;
+    border-width: 0.5px;
+    width: 100%;
+    min-height: 200px;
+
+    /*
+    width: 200px;
+    */
+}
+
+.textarea {
+    outline: none;
+    resize: none;
+    overflow: hidden;
+    box-sizing: border-box;
+}
