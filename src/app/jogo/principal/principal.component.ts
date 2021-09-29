@@ -64,10 +64,7 @@ export class PrincipalComponent implements OnInit {
       return
     }
 
-    console.log(this.cartabrancarodada.length);
-    console.log(this.cartapreta.nbrancas);
-
-    if (this.cartapreta.nbrancas == this.cartabrancarodada.length) {
+    if (this.cartabrancarodada.length >= this.cartapreta.nbrancas) {
       this.podejogar = false
       let data = {
         'jogador': this.jogador.nomeusuario,
@@ -84,26 +81,22 @@ export class PrincipalComponent implements OnInit {
   }
 
   finalizarrodada() {
-    console.log(this.jogo.cartasbrancasrodada);
     this.jogo.cartasbrancasrodada[this.index].cartabranca.push(this.jogo.cartasbrancasrodada[this.index].jogador)
     let aux = this.jogo.cartasbrancasrodada[this.index]
     this.jogo.cartasbrancasrodada = []
     this.jogo.cartasbrancasrodada.push(aux)
+
     this.firestore.collection("Salas").doc(String(this.parametro)).update({ cartasbrancasrodada: this.jogo.cartasbrancasrodada }).then(() => {
       setTimeout(() => {
         this.jogo.rodada = 0
         this.jogo.cartasbrancasrodada = []
         this.jogo.chefao = this.jogo.jogadores.pop()
         this.jogo.jogadores.unshift(this.jogo.chefao)
-        console.log("-=-=-=-=-=-");
-        console.log(this.jogo);
-
 
         this.firestore.collection("Salas").doc(String(this.parametro)).update(this.jogo)
 
       }, 5000);
     });
-
   }
 
   escolhermelhorcarta(index: number) {
@@ -116,11 +109,13 @@ export class PrincipalComponent implements OnInit {
 
   gerenciarsala(data: any) {
     this.jogo = data
+
     console.log("=================");
     if (Number(data.gamestart) == 0) {
       this.router.navigate(['/sala/' + this.parametro])
       return
     }
+
     this.configcartas()
 
     switch (data.rodada) {
@@ -142,15 +137,35 @@ export class PrincipalComponent implements OnInit {
         break;
     }
 
-
     if (this.jafoi == false) {
-      this.fb.firestoregetdata("Usuarios", String(this.auth.email)).subscribe(doc => {
-        //this.fb.firestoregetdata("Usuarios", "pedrodanielcamargos.pd@gmail.com").subscribe(doc => {
+      var aux
+      if (this.auth.email == undefined) {
+        aux = this.auth.user.email
+      } else {
+        aux = this.auth.email
+      }
+
+      this.fb.firestoregetdata("Usuarios", String(aux)).subscribe(doc => {
         this.jogador = doc.payload.data()
+
+        var aux = {
+          jogador: doc.payload.data(),
+          pontos: 0
+        }
+
+        var colocar = true
+        for (let index = 0; index < data.jogadorespontos.length; index++) {
+          if (data.jogadorespontos[index].jogador.nomeusuario == this.jogador.nomeusuario) {
+            colocar = false
+          }
+        }
+        if (colocar == true) {
+          data.jogadorespontos.push(aux)
+        }
 
         if (data.jogadores.indexOf(String(this.jogador.nomeusuario)) == -1) {
           data.jogadores.push(String(this.jogador.nomeusuario))
-          this.firestore.collection("Salas").doc(String(this.parametro)).update({ jogadores: data.jogadores });
+          this.firestore.collection("Salas").doc(String(this.parametro)).update({ jogadorespontos: data.jogadorespontos, jogadores: data.jogadores });
         }
 
         if (String(this.jogador.email) == String(this.jogo.host)) {
@@ -202,7 +217,6 @@ export class PrincipalComponent implements OnInit {
     this.jogo.rodada = 1
     this.jogo.cartapreta = this.cartapreta
     this.firestore.collection("Salas").doc(String(this.parametro)).update({ cartapreta: this.cartapreta, rodada: 1 });
-
   }
 
 }

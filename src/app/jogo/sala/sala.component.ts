@@ -18,9 +18,12 @@ export class SalaComponent implements OnInit {
   auth: any = null
   cartasbrancas: any = []
   cartaspretas: any = []
-
+  jogadores: any = []
+  jogadorespontos: any = []
   admin: boolean = false;
   jafoi: number = 0;
+
+
   constructor(private authservice: AuthService, private firestore: AngularFirestore, private fb: FirebaseService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
@@ -30,58 +33,89 @@ export class SalaComponent implements OnInit {
     if (this.parametro == null || this.parametro == undefined || this.parametro == '') {
       this.router.navigate(['/'])
     }
-    //console.log(this.parametro);
+
     if (this.talogado()) {
       this.fb.firestoregetdata("Salas", String(this.parametro)).subscribe(doc => (this.gerenciarsala(doc.payload.data())))
     }
 
   }
 
-  testar(formdata: any) {
-    console.log("Testar -------------------------------");
-    console.log(formdata.value);
-
-
-  }
 
   iniciar(formdata: any) {
-    console.log("--------------");
+
+    var seguir: boolean = false
+
     this.cartasbrancas = []
     this.cartaspretas = []
-
-    //console.log(formdata.value);
-    console.log(this.jogo);
-    //console.log(this.pacotes);
 
     for (let index = 0; index < this.pacotes.length; index++) {
       const element = this.pacotes[index].payload.doc.data();
       if (formdata.value[element.packid]) {
         Array.prototype.push.apply(this.cartasbrancas, element.cartasbrancas);
         Array.prototype.push.apply(this.cartaspretas, element.cartaspretas);
+        seguir = true
       }
     }
 
-    this.jogo.chefao = this.jogo.jogadores.shift()
-    this.jogo.jogadores.push(this.jogo.chefao)
-
-
-    this.jogo.cartasbrancas = this.cartasbrancas
-    this.jogo.cartaspretas = this.cartaspretas.sort(() => Math.random() - 0.5)
-    this.jogo.gamestart = 1
-    this.jogo.cartapreta = ''
-    this.jogo.cartasbrancasrodada = []
-
-    console.log(this.jogo);
-    this.firestore.collection("Salas").doc(String(this.parametro)).update(this.jogo).then(() => {
-
-      this.router.navigate(['/jogo/' + this.parametro])
+    if (seguir == false) {
+      alert("Selecione ao menos um pack de cartas!");
       return
-    });
+    }
+
+    /*
+  this.jogo.chefao = this.jogo.jogadores.shift()
+  this.jogo.jogadores.push(this.jogo.chefao)
+ 
+  this.jogo.cartasbrancas = this.cartasbrancas.sort(() => Math.random() - 0.5)
+  this.jogo.cartaspretas = this.cartaspretas.sort(() => Math.random() - 0.5)
+  this.jogo.gamestart = 1
+ 
+  this.jogo.limitepontos = Number((<HTMLSelectElement>document.getElementById("limitepontos")).value)
+  this.jogo.cartapreta = ''
+  this.jogo.cartasbrancasrodada = []
+ 
+ 
+  console.log(this.jogo);
+*/
+
+    let datasala = {
+      host: this.jogador.email,
+      sala: this.jogador.nomeusuario,
+      tipodesala: 1,
+      jogadores: this.jogadores,
+      gamestart: 1,
+      rodada: 0,
+      chefao: this.jogo.jogadores[0],
+      cartasbrancas: this.cartasbrancas.sort(() => Math.random() - 0.5),
+      cartaspretas: this.cartaspretas.sort(() => Math.random() - 0.5),
+      limitepontos: Number((<HTMLSelectElement>document.getElementById("limitepontos")).value),
+      cartapreta: '',
+      cartasbrancasrodada: [],
+      jogadorespontos: this.jogadorespontos
+    };
 
 
+    console.log(this.jogadorespontos);
+
+
+    try {
+      this.firestore.collection("Salas").doc(String(this.parametro)).update(datasala).then(() => {
+        this.router.navigate(['/jogo/' + this.parametro])
+        return
+      });
+    } catch (error) {
+      alert("Ops, deu errado!")
+      alert(error)
+    }
+    /*
+    
+    */
 
 
   }
+
+
+
 
   gerenciarsala(data: any) {
     if (Number(data.gamestart) == 1) {
@@ -93,12 +127,36 @@ export class SalaComponent implements OnInit {
       this.fb.firestoregetcolec("Pacotes").subscribe(doc => {
         this.pacotes = doc
       })
-      this.fb.firestoregetdata("Usuarios", String(this.auth.email)).subscribe(doc => {
+
+      var aux
+      if (this.auth.email == undefined) {
+        aux = this.auth.user.email
+      } else {
+        aux = this.auth.email
+      }
+
+      this.fb.firestoregetdata("Usuarios", String(aux)).subscribe(doc => {
         this.jogador = doc.payload.data()
+
+        var aux = {
+          jogador: doc.payload.data(),
+          pontos: 0
+        }
+        var colocar = true
+        for (let index = 0; index < this.jogadorespontos.length; index++) {
+          if (this.jogadorespontos[index].jogador.nomeusuario == this.jogador.nomeusuario) {
+            colocar = false
+          }
+        }
+
+        if (colocar == true) {
+          this.jogadorespontos.push(aux)
+        }
 
         if (data.jogadores.indexOf(String(this.jogador.nomeusuario)) == -1) {
           data.jogadores.push(String(this.jogador.nomeusuario))
-          this.firestore.collection("Salas").doc(String(this.parametro)).update({ jogadores: data.jogadores });
+          this.jogadores.push(String(this.jogador.nomeusuario))
+          this.firestore.collection("Salas").doc(String(this.parametro)).update({ jogadorespontos: this.jogadorespontos, jogadores: data.jogadores });
         }
 
         if (String(this.jogador.email) == String(this.jogo.host)) {

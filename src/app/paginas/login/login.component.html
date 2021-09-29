@@ -1,52 +1,49 @@
-<div class="row">
-    <div *ngIf="talogado()">
+<div class="container">
+    <div class="row justify-content-center">
+        <div *ngIf="talogado()"></div>
+
+        <div class="col-lg-4 col-sm">
+            <h2>Bem Vindo</h2>
+            <h3>Faça login para jogar</h3>
+
+            <form id="loginform" #formData='ngForm' (ngSubmit)="login(formData)">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email</label>
+                    <input type="email" name="email" required placeholder="Informe Seu Email" class="form-control"
+                        id="Email" (ngModel)="email" aria-describedby="Informe Seu Email">
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Senha</label>
+                    <input name="password" type="password" class="form-control" (ngModel)="password" id="InputPassword">
+                </div>
+                <div class="d-grid gap-2">
+                    <button [disabled]="!formData.valid" class="btn btn-lg btn-success">Entrar</button>
+
+                </div>
+                
+                <div class="form-group">
+                    <p *ngIf="errorMessage.length > 0" class="text-danger">
+                        {{errorMessage}}</p>
+                    <p *ngIf="error.message.length > 0" class="text-danger">
+                        {{error.message}} </p>
+                </div>
+                <br>
+                <div class="d-grid gap-2">
+                    <button routerLink="/registro" class="btn btn-lg btn-danger btn-round">
+                        Criar uma Conta
+                    </button>
+                </div>
+
+            </form>
+
+            <a data-toggle="modal" data-target="#exampleModal" class="btn-link text-white">Esqueceu
+                a Senha?</a>
+        </div>
+
+        <div class="col-lg-4">
+
+        </div>
 
     </div>
-    <div class="col-1"></div>
-
-    <div class="col-4">
-        <h2>Bem Vindo</h2>
-        <h3>Faça login para jogar</h3>
-
-        <form id="loginform" #formData='ngForm' (ngSubmit)="login(formData)">
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email</label>
-                <input type="email" name="email" required placeholder="Informe Seu Email" class="form-control"
-                    id="Email" (ngModel)="email" aria-describedby="Informe Seu Email">
-                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Senha</label>
-                <input name="password" type="password" class="form-control" (ngModel)="password" id="InputPassword">
-            </div>
-            <div class="d-grid gap-2">
-                <button [disabled]="!formData.valid" class="btn btn-success">Entrar</button>
-
-            </div>
-
-            <div class="form-group">
-                <p *ngIf="errorMessage.length > 0" class="text-danger">
-                    {{errorMessage}}</p>
-                <p *ngIf="error.message.length > 0" class="text-danger">
-                    {{error.message}} </p>
-            </div>
-            <br>
-            <div class="d-grid gap-2">
-                <button routerLink="/registro" class="btn btn-lg btn-danger btn-round">
-                    Criar uma Conta
-                </button>
-            </div>
-
-        </form>
-
-        <a data-toggle="modal" data-target="#exampleModal" class="btn-link text-white">Esqueceu
-            a Senha?</a>
-    </div>
-    <div class="col-2"></div>
-
-    <div class="col-4">
-
-    </div>
-    <div class="col-1"></div>
-
 </div>

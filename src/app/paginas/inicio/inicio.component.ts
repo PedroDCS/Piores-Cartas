@@ -18,6 +18,7 @@ export class InicioComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth = this.authservice.authState;
+    this.talogado()
   }
 
 
@@ -27,8 +28,12 @@ export class InicioComponent implements OnInit {
 
   criarsala(tiposala: number) {
 
+    console.log(this.user);
+    console.log(this.auth);
+
+
     let datasala = {
-      host: this.auth.email,
+      host: this.user.email,
       sala: this.user.nomeusuario,
       tipodesala: tiposala,
       jogadores: [this.user.nomeusuario],
@@ -38,12 +43,10 @@ export class InicioComponent implements OnInit {
 
     try {
       console.log('tentando');
-      this.fb
-        .firestoresetdata('Salas', String(this.user.nomeusuario), datasala)
-        .then(() => {
-          console.log('criada');
-          this.router.navigate(['sala/' + this.user.nomeusuario]);
-        });
+      this.fb.firestoresetdata('Salas', String(this.user.nomeusuario), datasala).then(() => {
+        console.log('criada');
+        this.router.navigate(['sala/' + this.user.nomeusuario]);
+      });
     } catch (error) {
       alert('Ops, deu errado, tenta ai de novo');
       alert(error);
@@ -52,9 +55,13 @@ export class InicioComponent implements OnInit {
 
   talogado() {
     if (this.authservice.isUserEmailLoggedIn) {
-      this.fb
-        .firestoregetdata('Usuarios', this.auth.email)
-        .subscribe((doc) => (this.user = doc.payload.data()));
+
+      if (this.auth.email == undefined) {
+        this.fb.firestoregetdata('Usuarios', this.auth.user.email).subscribe((doc) => (this.user = doc.payload.data()));
+      } else {
+        this.fb.firestoregetdata('Usuarios', this.auth.email).subscribe((doc) => (this.user = doc.payload.data()));
+      }
+
       return true;
     } else {
       this.router.navigate(['/login']);

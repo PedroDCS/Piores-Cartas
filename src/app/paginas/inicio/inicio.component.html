@@ -1,18 +1,16 @@
 <div class="container-fluid">
-    <div *ngIf="talogado()" class="row justify-content-md-center">
+    <div class="row justify-content-md-center">
         <hr>
 
-        <div class="col-sm">
+        <div class="col-sm col-md-5">
             <h4>Novo jogo</h4>
             <div class="d-grid gap-2">
-                <button (click)="criarsala(0)" class="btn btn-success">
-                    Criar
-                    Sala
+                <button (click)="criarsala(0)" class="btn btn-success"> Criar Sala
                 </button>
             </div>
         </div>
 
-        <div class="col-sm">
+        <div class="col-sm col-md-5">
             <h4>Entrar em uma sala</h4>
             <div class="input-group">
                 <input id="codsala" aria-describedby="button-addon2" aria-label="Codigo da Sala" class="form-control"
@@ -25,16 +23,16 @@
     </div>
     <hr>
     <div class="row justify-content-md-center">
-        <div class="col-sm">
+        <div class="col-sm col-md-5">
             <h4>Novo Pack de cartas</h4>
             <div class="d-grid gap-2">
-                <button class="btn btn-rosa">Criar um pack de cartas</button>
+                <button routerLink="/criarpack" class="btn btn-rosa">Criar um pack de cartas</button>
             </div>
         </div>
-        <div class="col-sm">
+        <div class="col-sm col-md-5">
             <h4>Perfil de usuario</h4>
             <div class="d-grid gap-2">
-                <button class="btn btn-roxo">Perfil</button>
+                <button class="btn btn-roxo" routerLink="/perfil">Perfil</button>
             </div>
         </div>
     </div>

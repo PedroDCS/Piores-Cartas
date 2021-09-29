@@ -1,44 +1,42 @@
-<div class="row" *ngIf="!talogado()">
-    <div class="col-1"></div>
+<div class="container">
+    <div class="row justify-content-center" *ngIf="!talogado()">
 
-    <div class="col-4">
+        <div class="col-lg-4">
+        </div>
+
+        <div class="col-lg-4 col-sm">
+
+            <h2>Bem Vindo</h2>
+            <h3>Cadastre-se para jogar</h3>
+
+            <form id="loginform" #formData='ngForm' (ngSubmit)="register(formData)">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email</label>
+                    <input type="email" name="email" required placeholder="Informe Seu Email" class="form-control"
+                        id="Email" (ngModel)="email" aria-describedby="Informe Seu Email">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Senha</label>
+                    <input name="password" type="password" class="form-control" (ngModel)="password" id="InputPassword">
+                </div>
+                <div class="d-grid gap-2">
+                    <button [disabled]="!formData.valid" type="submit"
+                        class="btn btn-roxo btn-lg btn-round">Registrar-se</button>
+                    <button type="button" routerLink="/login" class="btn btn-rosa btn-lg btn-round">Voltar pro
+                        Login</button>
+                </div>
+
+                <div class="form-group">
+                    <p *ngIf="errorMessage.length > 0" class="text-danger">
+                        {{errorMessage}}</p>
+                    <p *ngIf="error.message.length > 0" class="text-danger">
+                        {{error.message}} </p>
+                </div>
+                <br>
+
+
+            </form>
+        </div>
 
     </div>
-    <div class="col-2"></div>
-
-    <div class="col-4">
-
-        <h2>Bem Vindo</h2>
-        <h3>Cadastre-se para jogar</h3>
-
-        <form id="loginform" #formData='ngForm' (ngSubmit)="register(formData)">
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email</label>
-                <input type="email" name="email" required placeholder="Informe Seu Email" class="form-control"
-                    id="Email" (ngModel)="email" aria-describedby="Informe Seu Email">
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Senha</label>
-                <input name="password" type="password" class="form-control" (ngModel)="password" id="InputPassword">
-            </div>
-            <div class="d-grid gap-2">
-                <button [disabled]="!formData.valid" type="submit"
-                    class="btn btn-success btn-lg btn-round">Registrar-se</button>
-                <button type="button" routerLink="/login" class="btn btn-info btn-lg btn-round">Voltar pro
-                    Login</button>
-            </div>
-
-            <div class="form-group">
-                <p *ngIf="errorMessage.length > 0" class="text-danger">
-                    {{errorMessage}}</p>
-                <p *ngIf="error.message.length > 0" class="text-danger">
-                    {{error.message}} </p>
-            </div>
-            <br>
-
-
-        </form>
-    </div>
-    <div class="col-1"></div>
-
 </div>
