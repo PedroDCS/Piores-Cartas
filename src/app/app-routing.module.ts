@@ -7,6 +7,7 @@ import { InicioComponent } from './paginas/inicio/inicio.component';
 import { LoginComponent } from './paginas/login/login.component';
 import { PerfilComponent } from './paginas/perfil/perfil.component';
 import { RegisterComponent } from './paginas/register/register.component';
+import { ResetpasswordComponent } from './paginas/resetpassword/resetpassword.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
   {
     path: "registro",
     component: RegisterComponent
+  },
+  {
+    path: 'resetpassword',
+    component: ResetpasswordComponent
   },
   {
     path: "perfil",

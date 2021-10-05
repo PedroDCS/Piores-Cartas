@@ -27,7 +27,7 @@ export class SalaComponent implements OnInit {
   constructor(private authservice: AuthService, private firestore: AngularFirestore, private fb: FirebaseService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    this.auth = this.authservice.authState
+    this.auth = this.authservice.estado_Auth
 
     this.parametro = this.activatedRoute.snapshot.paramMap.get('parametro');
     if (this.parametro == null || this.parametro == undefined || this.parametro == '') {
@@ -171,7 +171,7 @@ export class SalaComponent implements OnInit {
   }
 
   talogado() {
-    if (this.authservice.isUserEmailLoggedIn) {
+    if (this.authservice.usuario_logado_email) {
       return true;
     } else {
       this.router.navigate(['/login']);

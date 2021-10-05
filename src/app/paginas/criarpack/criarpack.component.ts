@@ -20,12 +20,11 @@ export class CriarpackComponent implements OnInit {
   constructor(private fb: FirebaseService, private authservice: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    //this.talogado()
+    this.talogado()
   }
 
-
   talogado() {
-    if (this.authservice.isUserEmailLoggedIn) {
+    if (this.authservice.usuario_logado_email) {
       return true
     } else {
       this.router.navigate(['/login'])
@@ -34,20 +33,16 @@ export class CriarpackComponent implements OnInit {
   }
 
   adicionarcarta(tipocarta: boolean) {
-    //carta preta
     if (tipocarta) {
       let aux = {
         'carta': (<HTMLSelectElement>document.getElementById("cartapreta")).value,
         'nbrancas': Number((<HTMLSelectElement>document.getElementById("numcardbranca")).value)
       }
       this.cartaspretas.push(aux);
-      //this.cartaspretas.push((<HTMLSelectElement>document.getElementById("cartapreta")).value);
       (<HTMLSelectElement>document.getElementById("cartapreta")).value = '';
-
-      //this.cartaspretaNbranca.push(Number((<HTMLSelectElement>document.getElementById("numcardbranca")).value));
       (<HTMLSelectElement>document.getElementById("numcardbranca")).value = '1';
 
-    } else { //carta branca
+    } else {
       this.cartasbrancas.push((<HTMLSelectElement>document.getElementById("cartabranca")).value);
       (<HTMLSelectElement>document.getElementById("cartabranca")).value = ''
     }
@@ -59,8 +54,7 @@ export class CriarpackComponent implements OnInit {
       'packdesc': (<HTMLSelectElement>document.getElementById("packdesc")).value,
       'cartaspretas': this.cartaspretas,
       'cartasbrancas': this.cartasbrancas,
-      //'numcartasbrancas': this.cartaspretaNbranca,
-      'criador': this.authservice.authState.email,
+      'criador': this.authservice.estado_Auth.email,
       'packid': Math.floor(Math.random() * 10000 + 1)
     }
 
@@ -74,16 +68,12 @@ export class CriarpackComponent implements OnInit {
         alert("Pacote Salvo Com Sucesso!")
       }).catch(error => {
         alert("Ops, deu errado, tenta ai de novo")
-
         alert(error)
       })
     } catch (error) {
       alert("Tem alguma coisa errada ai, olha direito...")
       alert(error)
     }
-
-
-
   }
 
 }

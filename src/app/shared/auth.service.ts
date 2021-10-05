@@ -6,49 +6,32 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  authState: any = null;
 
-  constructor(private afu: AngularFireAuth, private router: Router) {
-    this.afu.authState.subscribe((auth => {
-      this.authState = auth;
+  estado_Auth: any = null;
+
+  constructor(private fireauth: AngularFireAuth, private router: Router) {
+    this.fireauth.authState.subscribe((auth => {
+      this.estado_Auth = auth;
     }))
   }
 
-  // all firebase getdata functions
 
-  get isUserAnonymousLoggedIn(): boolean {
-    return (this.authState !== null) ? this.authState.isAnonymous : false
+  get usuario_anonimo_logado(): boolean {
+    return (this.estado_Auth !== null) ? this.estado_Auth.isAnonymous : false
   }
 
-  get currentUserId(): string {
-    return (this.authState !== null) ? this.authState.uid : ''
-  }
-
-  get currentUserName(): string {
-    if (this.authState == null) {
-      return "";
-    } else {
-      return this.authState['email']
-    }
-
-  }
-
-  get currentUser(): any {
-    return (this.authState !== null) ? this.authState : null;
-  }
-
-  get isUserEmailLoggedIn(): boolean {
-    if ((this.authState !== null) && (!this.isUserAnonymousLoggedIn)) {
+  get usuario_logado_email(): boolean {
+    if ((this.estado_Auth !== null) && (!this.usuario_anonimo_logado)) {
       return true
     } else {
       return false
     }
   }
 
-  registerWithEmail(data: any) {
-    return this.afu.createUserWithEmailAndPassword(data.email, data.password)
+  registrar_com_email(data: any) {
+    return this.fireauth.createUserWithEmailAndPassword(data.email, data.password)
       .then((user) => {
-        this.authState = user
+        this.estado_Auth = user
       })
       .catch(error => {
         console.log(error)
@@ -57,22 +40,31 @@ export class AuthService {
   }
 
   getAuth() {
-    return this.afu;
+    return this.fireauth;
   }
 
-  resetarsenha(emailAddress: string) {
-    return this.afu.sendPasswordResetEmail(emailAddress).then(function () {
-      // Email sent.
+  get_estado_Auth() {
+    if (this.estado_Auth.email == undefined) {
+      return this.estado_Auth.user
+    } else {
+      return this.estado_Auth
+    }
+  }
+
+  resetar_senha(emailAddress: string) {
+    return this.fireauth.sendPasswordResetEmail(emailAddress).then(function () {
     }).catch(error => {
       console.log(error)
       throw error
     });
   }
 
-  loginWithEmail(data: any) {
-    return this.afu.signInWithEmailAndPassword(data.email, data.password)
+  login_com_email(data: any) {
+    return this.fireauth.signInWithEmailAndPassword(data.email, data.password)
       .then((user) => {
-        this.authState = user
+        this.estado_Auth = user
+        this.router.navigate(['/'])
+
       })
       .catch(error => {
         console.log(error)
@@ -81,10 +73,11 @@ export class AuthService {
   }
 
   singout(): void {
-    this.afu.signOut().then(() => {
-      this.router.navigate(['/login']);
+    this.fireauth.signOut().then(() => {
+      setTimeout(() => {
+        this.router.navigate(['/login'])
+      }, 1000);
     });
-
   }
 
 }

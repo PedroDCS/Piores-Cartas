@@ -1,15 +1,15 @@
 <div class="container">
     <div class="row justify-content-center" *ngIf="!talogado()">
 
-        <div class="col-lg-4">
+        <div class="col-md-6 ">
+            <img class="" src="../../../assets/Images/Logo_branca_vertical.png" alt="">
         </div>
 
-        <div class="col-lg-4 col-sm">
-
-            <h2>Bem Vindo</h2>
-            <h3>Cadastre-se para jogar</h3>
-
-            <form id="loginform" #formData='ngForm' (ngSubmit)="register(formData)">
+        <div class="col-md-6 ">
+            <br>
+            <h2 class="text-center"><b>Cadastre-se para jogar</b></h2>
+            <hr>
+            <form id="loginform" #formData='ngForm' (ngSubmit)="registrar(formData)">
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email</label>
                     <input type="email" name="email" required placeholder="Informe Seu Email" class="form-control"
@@ -19,12 +19,17 @@
                     <label for="exampleInputPassword1" class="form-label">Senha</label>
                     <input name="password" type="password" class="form-control" (ngModel)="password" id="InputPassword">
                 </div>
+                <hr>
+
                 <div class="d-grid gap-2">
                     <button [disabled]="!formData.valid" type="submit"
-                        class="btn btn-roxo btn-lg btn-round">Registrar-se</button>
-                    <button type="button" routerLink="/login" class="btn btn-rosa btn-lg btn-round">Voltar pro
+                        class="btn btn-roxo btn-round">Registrar-se</button>
+
+                    <button type="button" routerLink="/login" class="btn btn-secondary  btn-round">Voltar pro
                         Login</button>
                 </div>
+
+
 
                 <div class="form-group">
                     <p *ngIf="errorMessage.length > 0" class="text-danger">

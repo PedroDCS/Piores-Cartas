@@ -2,26 +2,29 @@
     <div class="row justify-content-center">
         <div *ngIf="talogado()"></div>
 
-        <div class="col-lg-4 col-sm">
-            <h2>Bem Vindo</h2>
-            <h3>Faça login para jogar</h3>
-
+        <div class="col-md-6">
+            <br>
+            <h2 class=""><b>Bem Vindo</b></h2>
+            <p>Faça login para jogar</p>
+            <hr>
             <form id="loginform" #formData='ngForm' (ngSubmit)="login(formData)">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email</label>
+                    <label for="Email" class="form-label">Email</label>
                     <input type="email" name="email" required placeholder="Informe Seu Email" class="form-control"
                         id="Email" (ngModel)="email" aria-describedby="Informe Seu Email">
-                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Senha</label>
                     <input name="password" type="password" class="form-control" (ngModel)="password" id="InputPassword">
                 </div>
+                <hr>
                 <div class="d-grid gap-2">
-                    <button [disabled]="!formData.valid" class="btn btn-lg btn-success">Entrar</button>
-
+                    <button [disabled]="!formData.valid" class="btn btn-verdinho">Entrar</button>
+                    <button type="button" routerLink="/registro" class="btn btn-info ">
+                        Criar uma Conta
+                    </button>
                 </div>
-                
+
                 <div class="form-group">
                     <p *ngIf="errorMessage.length > 0" class="text-danger">
                         {{errorMessage}}</p>
@@ -29,21 +32,58 @@
                         {{error.message}} </p>
                 </div>
                 <br>
-                <div class="d-grid gap-2">
-                    <button routerLink="/registro" class="btn btn-lg btn-danger btn-round">
-                        Criar uma Conta
-                    </button>
-                </div>
+
 
             </form>
 
-            <a data-toggle="modal" data-target="#exampleModal" class="btn-link text-white">Esqueceu
-                a Senha?</a>
+
+            <button class="btn-link text-white bg-transparent border-0" data-bs-toggle="modal"
+                data-bs-target="#modalresetsenha">Esqueceu a Senha?</button>
         </div>
 
-        <div class="col-lg-4">
-
+        <div class="col-md-6">
+            <img class="" src="../../../assets/Images/Logo_branca_vertical.png" alt="">
         </div>
 
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalresetsenha" tabindex="-1" aria-labelledby="modalresetsenhaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="modalresetsenhaLabel">Recuperar a sua senha</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <h6 class="text-black">Enviar um email para recuperar a sua senha</h6>
+                        <label for="emailresetar_senha">Email</label>
+                        <input type="email" class="form-control" id="emailresetar_senha" aria-describedby="emailHelp"
+                            placeholder="Insira o email">
+                        <small id="emailHelp" class="form-text text-muted">Sera enviado um email para recuperar o acesso
+                            ao app.</small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer row">
+                <div class="col">
+                    <div class="d-grid gap-2">
+                        <button type="button" id="fecharmodal" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Fechar</button>
+
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-primary" (click)="resetar_senha()">Enviar</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -2,10 +2,7 @@
     width: 100%;
     overflow: auto;
     background-color: #212121;
-
 }
-
-/* Navbar links */
 
 .navbar a {
     float: left;
@@ -16,26 +13,20 @@
     font-size: 20px;
 }
 
-/* Navbar links on mouse-over */
-
 .navbar a:hover {
-    background-color: #000;
+    background-color: #2e2d2d;
 }
 
-/* Current/active navbar link */
-
-.active {
+.primeiro {
     margin-left: 111px;
 }
-
-/* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
 
 @media screen and (max-width: 500px) {
     .navbar a {
         float: none;
         display: block;
     }
-    .active {
+    .primeiro {
         margin-left: 11px;
     }
 }

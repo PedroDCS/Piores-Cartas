@@ -21,6 +21,7 @@ import { PerfilComponent } from './paginas/perfil/perfil.component';
 import { CriarpackComponent } from './paginas/criarpack/criarpack.component';
 import { FormsModule } from '@angular/forms';
 import { SalaComponent } from './jogo/sala/sala.component';
+import { ResetpasswordComponent } from './paginas/resetpassword/resetpassword.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { SalaComponent } from './jogo/sala/sala.component';
     RegisterComponent,
     PerfilComponent,
     CriarpackComponent,
-    SalaComponent
+    SalaComponent,
+    ResetpasswordComponent
   ],
   imports: [
     BrowserModule,

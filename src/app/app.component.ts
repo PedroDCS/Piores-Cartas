@@ -8,19 +8,7 @@ import { AuthService } from './shared/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Piores Cartas';
-
-  constructor(private authservice: AuthService, private router: Router) { }
+  constructor() { }
   ngOnInit(): void {
-    //this.talogado()
-  }
-  talogado() {
-    if (this.authservice.isUserEmailLoggedIn) {
-      this.router.navigate(['/'])
-      return true
-    } else {
-      this.router.navigate(['/login'])
-      return false
-    }
   }
 }

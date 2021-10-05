@@ -13,25 +13,24 @@ export class LoginComponent implements OnInit {
 
   email = "";
   password = "";
-  errorMessage = ''; // validation error handle
+  errorMessage = ''; // error
 
-  error: { name: string, message: string } = { name: '', message: '' }; // for firbase error handle
+  error: { name: string, message: string } = { name: '', message: '' }; //firebase
 
-  constructor( private authservice: AuthService, private router: Router) { }
-
+  constructor(private authservice: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.talogado()
   }
 
 
-  clearErrorMessage() {
+  limpar_mensagens_erro() {
     this.errorMessage = '';
     this.error = { name: '', message: '' };
   }
 
   talogado() {
-    if (this.authservice.isUserEmailLoggedIn) {
+    if (this.authservice.usuario_logado_email) {
       this.router.navigate(['/'])
       return true
     } else {
@@ -40,43 +39,24 @@ export class LoginComponent implements OnInit {
   }
 
   login(formData: any) {
-    if (formData.valid) {
-      this.authservice.loginWithEmail(formData.value)
-        .then(() => {
-          //this.firebase.setUsuariotemp(this.email);
-          this.router.navigate(['/'])
-        }).catch(_error => {
-          this.error = _error
-          alert("Dados Incorretos");
-          this.router.navigate(['/login'])
-        })
+    this.limpar_mensagens_erro()
+    if (formData.valid && this.validar_formulario(formData.valid)) {
+      this.authservice.login_com_email(formData.value).then(() => {
+        this.router.navigate(['/'])
+      }).catch(_error => {
+        this.error = _error
+        alert("Dados Incorretos");
+        this.router.navigate(['/login'])
+      })
     }
-    
-    /*
-this.clearErrorMessage();
-    if (this.validateForm(this.email, this.password)) {
-      this.authservice.loginWithEmail(this.email, this.password)
-        .then(() => {
-          //this.firebase.setUsuariotemp(this.email);
-          this.router.navigate(['/area-usuario'])
-        }).catch(_error => {
-          this.error = _error
-          alert("Dados Incorretos");
-          this.router.navigate(['/login'])
-        })
-    }
-    */
   }
 
 
-
-  resetpassword() {
-
-    this.authservice.resetarsenha((<HTMLSelectElement>document.getElementById('exampleInputEmail1')).value)
+  resetar_senha() {
+    this.authservice.resetar_senha((<HTMLSelectElement>document.getElementById('emailresetar_senha')).value)
       .then(() => {
-        //document.getElementById('modal1').click()
-        //document.getElementById('modalsucesso').click()
-
+        alert("Email de recuperação enviado, cheque sua caixa de entrada");
+        (<HTMLSelectElement>document.getElementById("fecharmodal")).click()
       }).catch(_error => {
         this.error = _error
         alert("Email Incorreto, Não Existe Cadastro com esse email");
@@ -84,16 +64,17 @@ this.clearErrorMessage();
       })
   }
 
-  validateForm(email: string, password: string) {
-    if (email.length == 0) {
+
+  validar_formulario(data: any) {
+    if (String(data.email).length == 0) {
       this.errorMessage = "Informe um email";
       return false;
     }
-    if (password.length == 0) {
+    if (String(data.password).length == 0) {
       this.errorMessage = "Insira a senha";
       return false;
     }
-    if (password.length < 4) {
+    if (String(data.password).length < 4) {
       this.errorMessage = "Senha muito curta";
       return false;
     }
